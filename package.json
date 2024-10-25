@@ -1,7 +1,7 @@
 {
-  "name": "backend-template",
+  "name": "amazon-sp",
   "version": "0.0.1",
-  "description": "Template for back-end applications.",
+  "description": "",
   "private": true,
   "license": "UNLICENSED",
   "bin": "build/src/main.js",
@@ -43,6 +43,7 @@
     "@nestjs/passport": "9.0.0",
     "@nestjs/platform-express": "8.4.3",
     "@prisma/client": "4.10.1",
+    "amazon-sp-api": "1.1.2",
     "apollo-server-express": "3.6.7",
     "apollo-server-plugin-base": "3.5.2",
     "class-transformer": "0.5.1",

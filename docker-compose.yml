@@ -2,60 +2,18 @@ version: '3'
 
 services:
   # Application
-
   database:
     image: 'bitnami/mysql'
     container_name: 'mysql-${APP_NAME}'
     ports:
-      - '${DATABASE_PORT}:3306'
+      - '${DATABASE_PORT}:3307'
     environment:
       - MYSQL_DATABASE=${DATABASE_NAME}
       - MYSQL_USER=${DATABASE_USER}
       - MYSQL_PASSWORD=${DATABASE_PASS}
-      - MYSQL_ROOT_PASSWORD=${DATAVASE_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
     volumes:
       - 'mysql_data:/bitnami/mysql'
-    networks:
-      - app-net
-
-  redis:
-    image: 'bitnami/redis'
-    container_name: 'redis-${APP_NAME}'
-    ports:
-      - '${REDIS_PORT}:6379'
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    volumes:
-      - 'redis_data:/bitnami/redis/data'
-    networks:
-      - app-net
-
-  zookeeper:
-    image: 'bitnami/zookeeper:3'
-    container_name: 'zookeeper-${APP_NAME}'
-    ports:
-      - '${ZOOKEEPER_PORT}:2181'
-    volumes:
-      - 'zookeeper_data:/bitnami'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
-    networks:
-      - app-net
-
-  kafka:
-    image: 'bitnami/kafka:3'
-    container_name: 'kafka-${APP_NAME}'
-    ports:
-      - '${KAFKA_PORT}:9092'
-    volumes:
-      - 'kafka_data:/bitnami'
-    environment:
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:${ZOOKEEPER_PORT}
-      - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${KAFKA_HOST}:${KAFKA_PORT}
-      - ALLOW_PLAINTEXT_LISTENER=yes
-    depends_on:
-      - zookeeper
     networks:
       - app-net
 
@@ -64,11 +22,5 @@ networks:
     driver: bridge
 
 volumes:
-  zookeeper_data:
-    driver: local
-  kafka_data:
-    driver: local
   mysql_data:
-    driver: local
-  redis_data:
     driver: local
