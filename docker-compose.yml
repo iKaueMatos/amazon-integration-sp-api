@@ -6,7 +6,7 @@ services:
     image: 'bitnami/mysql'
     container_name: 'mysql-${APP_NAME}'
     ports:
-      - '${DATABASE_PORT}:3307'
+      - '${DATABASE_PORT}:3306'
     environment:
       - MYSQL_DATABASE=${DATABASE_NAME}
       - MYSQL_USER=${DATABASE_USER}
@@ -16,6 +16,8 @@ services:
       - 'mysql_data:/bitnami/mysql'
     networks:
       - app-net
+    env_file:
+      - .env
 
 networks:
   app-net:
