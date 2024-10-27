@@ -1,13 +1,21 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AmazonService } from './service/amazon-sp.service';
-import { AmazonScrapper } from './service/amazon-scrapper.service';
+import { AmazonScrapperService } from './service/amazon-scrapper.service';
+import { AmazonProduct } from 'amazon-product-scrapper';
+import { ExcelModule } from '@infra/excel/excel.module';
 
 @Module({
   imports: [
+    ExcelModule,
     ConfigModule.forRoot(),
   ],
   providers: [
+    {
+      provide: AmazonProduct,
+      useFactory: () => new AmazonProduct(),
+    },
+    AmazonScrapperService,
     {
       provide: AmazonService,
       useFactory: (configService: ConfigService) => {
@@ -21,21 +29,21 @@ import { AmazonScrapper } from './service/amazon-scrapper.service';
 
         return new AmazonService({
           region,
-          credentials:{
+          credentials: {
             SELLING_PARTNER_APP_CLIENT_ID: clientId,
-            SELLING_PARTNER_APP_CLIENT_SECRET: clientSecret
+            SELLING_PARTNER_APP_CLIENT_SECRET: clientSecret,
           },
           options: {
             only_grantless_operations: true,
             auto_request_tokens: true,
             use_sandbox: true,
             user_agent: 'amazon-sp-api/(Language=Node.js;/; Platform=/)',
-          }
+          },
         });
       },
       inject: [ConfigService],
     },
   ],
-  exports: [AmazonService, AmazonScrapper],
+  exports: [AmazonService, AmazonScrapperService],
 })
 export class AmazonModule {}

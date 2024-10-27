@@ -7,6 +7,7 @@ import { LoggerService } from '@infra/logger/logger.service';
 
 import { AppModule } from './app.module';
 import { ENV, PORT, APP_NAME, APP_VERSION } from './config/app';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -26,8 +27,16 @@ async function bootstrap() {
   app.useLogger(LoggerServiceInstance);
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalPipes(new ValidationPipe());
-
   app.enableShutdownHooks();
+
+  const config = new DocumentBuilder()
+    .setTitle(APP_NAME)
+    .setDescription('')
+    .setVersion(APP_VERSION)
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   app.listen(PORT).then(() => {
     LoggerServiceInstance.log(`HTTP server running on port ${PORT}!`);

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Either, left, right } from '@core/logic/Either';
-import { AmazonService } from '@infra/external/service/amazon-sp.service';
-import { CatalogItemsQuery } from '@infra/external/interfaces/amazon-sp/catalog-items-query.interface';
+import { AmazonService } from '@infra/amazon/service/amazon-sp.service';
+import { CatalogItemsQuery } from '@infra/amazon/interfaces/amazon-sp/catalog-items-query.interface';
 import { GetItemOffersResponse } from 'amazon-sp-api/lib/typings/operations/productPricing';
-import { RelatedItemsResponse } from '@infra/external/interfaces/amazon-sp/related-items.interface';
+import { RelatedItemsResponse } from '@infra/amazon/interfaces/amazon-sp/related-items.interface';
 import { GetCatalogItemResponse, ListCatalogCategoriesResponse } from 'amazon-sp-api/lib/typings/operations/catalogItems';
-import { SellerOffersResponse } from '@infra/external/interfaces/amazon-sp/sellers-offers.interface';
+import { SellerOffersResponse } from '@infra/amazon/interfaces/amazon-sp/sellers-offers.interface';
 import { AmazonExternalErrors } from './errors/amazon-external.errors';
 
 @Injectable()

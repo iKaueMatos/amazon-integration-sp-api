@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UseCasesModule } from '@application/use-cases/user-case.module';
 import { AmazonExternalController } from './controller/amazon.external.controller';
-import { AmazonExtractProductController } from './controller/amazon.extract.product';
+import { AmazonExtractProductController } from './controller/amazon.extract.scrapper';
 
 @Module({
   imports: [

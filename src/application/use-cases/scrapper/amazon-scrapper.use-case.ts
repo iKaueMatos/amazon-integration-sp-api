@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Either, left, right } from '@core/logic/Either';
-import { AmazonScrapper } from '@infra/external/service/amazon-scrapper.service';
-import { AmazonScrapperErrors } from './errors/amazon-scrapper';
+import { AmazonScrapperService } from '@infra/amazon/service/amazon-scrapper.service';
+import { AmazonScrapperErrors } from './errors/amazon-scrapper.use-case';
 import { IProduct } from 'amazon-product-scrapper';
 
 @Injectable()
-export class AmazonExternalUseCase {
-  constructor(private readonly amazonScrapperService: AmazonScrapper) {}
+export class AmazonScrapperUseCase {
+  constructor(private readonly amazonScrapperService: AmazonScrapperService) {}
 
-  async searchCatalogItems(query: string): Promise<Either<Error, IProduct | null>> {
+  async execute(query: string): Promise<Either<Error, IProduct | null>> {
     try {
       const result = await this.amazonScrapperService.scrapper(query);
       return right(result);

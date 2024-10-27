@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@infra/http/http.module';
 import { LoggerModule } from '@infra/logger/logger.module';
-import { AmazonModule } from './external/amazon.module';
+import { AmazonModule } from './amazon/amazon.module';
 
 @Module({
   imports: [
