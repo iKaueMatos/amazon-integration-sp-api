@@ -10,7 +10,6 @@ Um sistema para consulta e análise de produtos da Amazon, integrando com a Amaz
 ### 📜 Índice
 * 🔍 Visão Geral
 * 🛠️ Tecnologias Utilizadas
-* 🖼️ Diagrama de Arquitetura
 * 🔧 Ferramentas Adicionais
 * 📈 Funcionalidades
 * 🔐 Serviço de Autenticação

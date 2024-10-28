@@ -2,8 +2,29 @@ version: '3'
 
 services:
   # Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 'app-${APP_NAME}'
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASS}
+    depends_on:
+      - database
+    networks:
+      - app-net
+    env_file:
+      - .env
+
+  # Database
   database:
-    image: 'bitnami/mysql'
+    image: 'bitnami/mysql:latest'
     container_name: 'mysql-${APP_NAME}'
     ports:
       - '${DATABASE_PORT}:3306'
