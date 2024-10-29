@@ -1,26 +1,41 @@
 # Etapa de construção
 FROM node:18 AS builder
 
+# Define o diretório de trabalho
 WORKDIR /app
 
+# Copia arquivos de configuração do npm
 COPY package*.json ./
 
-RUN npm install --legacy-peer-deps
+# Instala as dependências
+RUN npm install
 
+# Copia o código da aplicação
 COPY . .
 
-RUN npm run build --legacy-peer-deps
+# Executa o build, que deve criar a pasta /app/dist
+RUN npm run build
 
-FROM node:18-alpine
+# Verifica se o diretório dist foi criado
+RUN ls -al /app  # Para depuração
 
+# Etapa de desenvolvimento
+FROM node:18-alpine AS development
+
+# Define o diretório de trabalho
 WORKDIR /app
 
-COPY package*.json ./
+# Copia tudo do estágio de construção
+COPY --from=builder /app .
 
-RUN npm install --legacy-peer-deps
+# Exclui o diretório dist (se desejar, pode manter)
+RUN rm -rf ./dist
 
-COPY --from=builder /app/dist ./dist
+# Instala as dependências de desenvolvimento
+RUN npm install
 
-EXPOSE 3000
+# Expõe a porta do aplicativo
+EXPOSE 3333
 
-CMD ["node", "dist/main"]
+# Comando para iniciar a aplicação em modo de desenvolvimento
+CMD ["npm", "run", "start:dev"]

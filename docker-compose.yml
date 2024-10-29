@@ -40,10 +40,25 @@ services:
     env_file:
       - .env
 
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: 'grafana-${APP_NAME}'
+    ports:
+      - '3001:3000'
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+    volumes:
+      - 'grafana_data:/var/lib/grafana'
+    networks:
+      - app-net
+
 networks:
   app-net:
     driver: bridge
 
 volumes:
   mysql_data:
+    driver: local
+  grafana_data:
     driver: local
